@@ -1,4 +1,5 @@
-KERNEL_SRC       = {{kernel_dir}}
+CDPP_DIRECTORY   = {{kernel_dir}}
+KERNEL_SRC       = $(CDPP_DIRECTORY)/cd++
 OUT_DIR          = $(shell pwd)/bin
 OBJ_DIR          = $(OUT_DIR)
 
