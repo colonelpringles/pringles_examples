@@ -35,14 +35,23 @@ hasInfectedSomeone(false)
      if (ParallelMainSimulator::Instance().existsParameter(description(), "exp_lambda")) {
         exponentialLambda = str2Value(ParallelMainSimulator::Instance().getParameter(description(), "exp_lambda"));
      }
+     this->exponentialLambda = exponentialLambda;
+
+     std::cout << "exponentialLambda: " << exponentialLambda << std::endl;
 
     // Get exponential lambda from atomic models parameters
+    // When an internal transition happens, the events that occur could be 
+    // INFECTION, with P = infectedProbability
+    // RECOVERY,  with P = 1 - infectedProbability
      double infectedProbability = .5;
      if (ParallelMainSimulator::Instance().existsParameter(description(), "infection_prob")) {
         infectedProbability = str2Value(ParallelMainSimulator::Instance().getParameter(description(), "infection_prob"));
      }
+     this->infectedProbability = infectedProbability;
 
-     exponential = exponential_distribution(exponentialLambda);
+     std::cout << "infectedProbability: " << infectedProbability << std::endl;
+
+     exponential = exponential_distribution<double>(exponentialLambda);
      gen = std::default_random_engine(seed);
 }
 
@@ -51,10 +60,14 @@ Model &Node{{n}}::initFunction()
 {
     double isInfectedProbability = uniform(gen);
 
+    cout << description() << " got in infection lottery: " << isInfectedProbability << endl;
+
     if (isInfectedProbability < infectedProbability) {
+        cout << description() << " is infected at first" << endl;
         this->state = INFECTED;
         holdIn(AtomicState::active, this->rand_exponential_time());
     } else {
+        cout << description() << " is healthy at first" << endl;
         this->state = HEALTHY;
         passivate();
     }
@@ -99,7 +112,7 @@ Model &Node{{n}}::outputFunction(const CollectMessage &msg)
     // Im infected
     double randomUniform = uniform(gen);
 
-    if (randomUniform < r) {
+    if (randomUniform < infectedProbability) {
         // Infect someone randomly, with uniform distribution
         int neighbourToInfect = randomNeighbour(gen);
         sendOutput(msg.time(), *neighbor_to_port[neighbourToInfect], this->state);    

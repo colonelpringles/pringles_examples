@@ -40,13 +40,14 @@ class Node{{n}} : public Atomic
     int state;
 
     std::default_random_engine gen;
-    std::exponential_distribution<> exponential;
+    std::exponential_distribution<double> exponential;
     std::uniform_real_distribution<double> uniform;
     std::uniform_int_distribution<int> randomNeighbour;
 
     bool hasInfectedSomeone;
 
-    float infectedProbability;
+    double infectedProbability;
+    double exponentialLambda;
 
     VTime rand_exponential_time();
 };
