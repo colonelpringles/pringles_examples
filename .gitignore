@@ -3,4 +3,5 @@
 **/bin/
 **/.ipynb_checkpoints/
 *.DS_Store
+*__pycache__*
 random_graphs/user_models
