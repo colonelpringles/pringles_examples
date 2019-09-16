@@ -1,3 +1,4 @@
 pringles-devs==0.0.2
 networkx==2.2
 Jinja2==2.10
+numpy==1.15.4
