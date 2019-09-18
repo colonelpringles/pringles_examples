@@ -5,13 +5,17 @@ from typing import List
 
 
 class RandomGraphGenerator():
-    def __init__(self, size: int):
+    def __init__(self, size: int, max_vertex_degree: int = 20):
         """Instantiates a random configuration model based graph generator.
+        The maximum degree default is 20, since it's the one used in the demo.
 
         :param size: The number of vertexes
         :type size: int
+        :param max_vertex_degree: The maximum allowed degree in a vertex
+        :type max_vertex_degree: int
         """
         self.size = size
+        self.max_vertex_degree = max_vertex_degree
 
     def generate(self) -> nx.Graph:
         """Do generate the graph.
@@ -28,8 +32,9 @@ class RandomGraphGenerator():
     def __generate_random_degree_sequence(self) -> List[float]:
         alpha = 10
         beta = 1
-        degree_sequence = [int(random.gammavariate(alpha, beta))
-                           for i in range(self.size)]
+        # Clip the random generated degrees to the maximum value
+        degree_sequence = [(int(random.gammavariate(alpha, beta) %
+                                self.max_vertex_degree) + 1) for i in range(self.size)]
         if sum(degree_sequence) % 2 == 1:
             degree_sequence[-1] += 1
         return degree_sequence
