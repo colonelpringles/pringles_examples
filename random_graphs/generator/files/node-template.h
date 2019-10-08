@@ -13,7 +13,7 @@
 #define HEALTHY 0
 
 /*
-@ModelMetadata
+@PringlesModelMetadata
 name:   Node{{n}}
 input_ports: {% if n > 1 %}{%for i in range(0,n-1)%}in{{i}}, {%endfor%}{% endif %}in{{n-1}}
 output_ports: {% if n > 1 %}{%for i in range(0,n-1)%}out{{i}}, {%endfor%}{% endif %}out{{n-1}}
