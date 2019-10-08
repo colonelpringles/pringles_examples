@@ -10,7 +10,7 @@
 
 class DTMC : public Atomic {
 /*
-@ModelMetadata
+@PringlesModelMetadata
 name: DTMC
 output_ports: currentState_o
 */
